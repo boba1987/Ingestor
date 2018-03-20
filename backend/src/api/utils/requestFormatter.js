@@ -1,6 +1,7 @@
+const xlsx = require('node-xlsx');
 const formidable = require('formidable');
-const xlsParse = require('xls-parse');
 const async = require('async');
+const fs = require('fs');
 
 // Extract files in request
 function extractFiles(req) {
@@ -19,7 +20,13 @@ function extractFiles(req) {
 }
 
 function xsl(file) {
-  return xlsParse.formatXls2Obj(file);
+  // Parse xls/xlsx file
+  const ingestData = xlsx.parse(file)[0].data;
+  // Delete file
+  fs.unlink(file, (err) => {
+    if (err) console.error(err);
+  });
+  return { ingestData };
 }
 
 function mapKeys(parsed) {
