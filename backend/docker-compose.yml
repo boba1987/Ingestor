@@ -3,7 +3,7 @@ services:
   api:
     build: .
     environment:
-      - MONGO_URI=mongodb://localhost:27017/ingestor
+      - MONGO_URI=mongodb://localhost:27017/ingest
     volumes:
       - .:/app
     ports:
