@@ -1,11 +1,11 @@
 const express = require('express');
-const ingestorRoutes = require('./ingestor.route');
+const ingestRoutes = require('./ingest.route');
 
 const router = express.Router();
 
 /**
-* Ingestor routes
+* ingest routes
 */
-router.use('/ingestor', ingestorRoutes);
+router.use('/ingest', ingestRoutes);
 
 module.exports = router;
