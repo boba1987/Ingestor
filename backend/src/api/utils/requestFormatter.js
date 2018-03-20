@@ -1,6 +1,7 @@
 const formidable = require('formidable');
 const xlsParse = require('xls-parse');
 
+// Extract files in request
 function extractFiles(req) {
   return new Promise((resolve, reject) => {
     const form = new formidable.IncomingForm();
@@ -8,7 +9,7 @@ function extractFiles(req) {
 
     form.parse(req, (err, fields, files) => {
       if (err) {
-        reject(JSON.stringify({ status: 400, message: err }));
+        reject(err);
       }
 
       resolve(files);
