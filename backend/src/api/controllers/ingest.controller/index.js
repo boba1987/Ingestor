@@ -5,16 +5,17 @@ const formater = require('../../utils/requestFormatter');
  * @public
  */
 exports.create = (req, res) => {
+  // Parse the request and Extract file sent in the request
   formater.extractFiles(req)
-    // Parse the request and Extract file sent in the request
-    .then(file => formater.xsl(file[''].path))
-    // Extract fields in xls
+    // Parse the file and extract fields
+    .then(file => formater.xsl(file.ingestion.path))
+    // Format extracted fields before saving to DB
     .then((parsed) => {
-      console.log(parsed);
+      console.log(parsed['Ingest data']);
       res.sendStatus(200);
     })
     .catch((err) => {
-      const error = JSON.parse(err);
-      res.status(error.status).send(error.message);
+      console.log(err);
+      res.status(err.status).send(err.message);
     });
 };
