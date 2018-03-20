@@ -1,5 +1,6 @@
 const formidable = require('formidable');
 const xlsParse = require('xls-parse');
+const async = require('async');
 
 // Extract files in request
 function extractFiles(req) {
@@ -21,7 +22,19 @@ function xsl(file) {
   return xlsParse.formatXls2Obj(file);
 }
 
+function mapKeys(parsed) {
+  const keys = {};
+  let index = 0;
+  async.each(parsed[0], (item) => {
+    keys[item] = index;
+    index += 1;
+  });
+
+  return keys;
+}
+
 module.exports = {
   extractFiles,
   xsl,
+  mapKeys,
 };
