@@ -21,6 +21,16 @@ exports.create = (req, res) => {
     // Format extracted fields before saving to DB
     .then((parsed) => {
       async.each(Object.keys(parsed), (key) => {
+        let index = 0;
+        async.each(parsed[key], (item) => {
+          if (index) {
+            item.push(index);
+          } else {
+            parsed[key][0].push('UID');
+          }
+
+          index += 1;
+        });
         // Get the colums/keys
         const keys = formater.mapKeys(parsed[key]);
         // Iterate over parsed .xsl file

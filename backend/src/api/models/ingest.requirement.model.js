@@ -17,8 +17,15 @@ const schema = {
   },
   inputDate: {
     type: String,
-    required: true,
+    required: false,
     unique: false,
+    trim: true,
+    lowercase: true,
+  },
+  UID: {
+    type: String,
+    required: false,
+    unique: true,
     trim: true,
     lowercase: true,
   },

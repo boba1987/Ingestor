@@ -36,6 +36,13 @@ const schema = {
     trim: true,
     lowercase: true,
   },
+  UID: {
+    type: String,
+    required: false,
+    unique: true,
+    trim: true,
+    lowercase: true,
+  },
 };
 
 /**
