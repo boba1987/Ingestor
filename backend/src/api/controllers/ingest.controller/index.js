@@ -35,7 +35,7 @@ exports.create = (req, res) => {
     // Parse the file and extract fields
     .then((file) => {
       if (!file.ingestion) {
-        throw new Error('ingestion field is required!');
+        throw Error('ingestion field is required!');
       }
       return formater.xsl(file.ingestion.path);
     })
@@ -98,7 +98,8 @@ exports.create = (req, res) => {
       });
     })
     .catch((err) => {
-      res.status(400).send(err);
+      console.log('err', err);
+      res.status(400).send('ingestion field is required!');
     });
 };
 
