@@ -18,7 +18,21 @@ const schema = {
   source: {
     type: String,
     required: true,
-    unique: true,
+    unique: false,
+    trim: true,
+    lowercase: true,
+  },
+  sourceId: {
+    type: String,
+    required: false,
+    unique: false,
+    trim: true,
+    lowercase: true,
+  },
+  provider: {
+    type: String,
+    required: false,
+    unique: false,
     trim: true,
     lowercase: true,
   },
@@ -35,15 +49,14 @@ const fileMetaDataSchema = new mongoose.Schema(
   },
 );
 
-// fileMetaDataSchema.pre('save', (next) => {
-//   // Format schema before saving
-//   console.log(this);
-//   // eslint-disable-next-line
-//   this.sourceId = this.source.split(':')[0];
-//   // eslint-disable-next-line
-//   this.provider = this.source.split(':')[1];
-//   next();
-// });
+fileMetaDataSchema.pre('save', function format(next) {
+  // Format schema before saving
+  // eslint-disable-next-line
+  this.sourceId = this.source.split(':')[0];
+  // eslint-disable-next-line
+  this.provider = this.source.split(':')[1];
+  next();
+});
 
 /**
  * @typedef FileMetaDataSchema
