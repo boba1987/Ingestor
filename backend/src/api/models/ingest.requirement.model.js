@@ -38,7 +38,7 @@ const requirementSchema = new mongoose.Schema(
 /**
  * @typedef Requirement
  */
-exports.model = mongoose.model('Requirement', requirementSchema);
+exports.Model = mongoose.model('Requirement', requirementSchema);
 
 // Export schema keys object
 exports.object = schema;

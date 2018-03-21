@@ -35,19 +35,20 @@ const fileMetaDataSchema = new mongoose.Schema(
   },
 );
 
-fileMetaDataSchema.pre('save', (next) => {
-  // Format schmea before saving
-  // eslint-disable-next-line
-  this.sourceId = this.source.split(':')[0];
-  // eslint-disable-next-line
-  this.provider = this.source.split(':')[1];
-  next();
-});
+// fileMetaDataSchema.pre('save', (next) => {
+//   // Format schema before saving
+//   console.log(this);
+//   // eslint-disable-next-line
+//   this.sourceId = this.source.split(':')[0];
+//   // eslint-disable-next-line
+//   this.provider = this.source.split(':')[1];
+//   next();
+// });
 
 /**
- * @typedef Client
+ * @typedef FileMetaDataSchema
  */
-exports.model = mongoose.model('FileMetaDataSchema', fileMetaDataSchema);
+exports.Model = mongoose.model('FileMetaDataSchema', fileMetaDataSchema);
 
 // Export schema keys object
 exports.object = schema;

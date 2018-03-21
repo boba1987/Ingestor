@@ -25,20 +25,39 @@ exports.create = (req, res) => {
         const keys = formater.mapKeys(parsed[key]);
         // Iterate over parsed .xsl file
         async.parallel({
+          schemaObjFileMetaData: (callback) => {
+            formater.formatBeforeSave(parsed, key, keys, fileMetaDataSchema.object)
+            // Insert in the Data base
+              .then((fileMetaDataSchemaRes) => {
+                // Insert in the Data base
+                fileMetaDataSchema.Model.create(fileMetaDataSchemaRes.slice(1), (err) => {
+                  if (err) console.error('fileMetaDataSchemaRes', err);
+                  callback(null, fileMetaDataSchemaRes.slice(1));
+                });
+              });
+          },
           schemaObjReq: (callback) => {
             formater.formatBeforeSave(parsed, key, keys, requirementSchema.object)
-              .then(requirementSchemaRes => callback(null, requirementSchemaRes.slice(1)));
+              .then((requirementSchemaRes) => {
+                // Insert in the Data base
+                requirementSchema.Model.create(requirementSchemaRes.slice(1), (err) => {
+                  if (err) console.error('requirementSchemaRes', err);
+                  callback(null, requirementSchemaRes.slice(1));
+                });
+              });
           },
           schemaObjClient: (callback) => {
             formater.formatBeforeSave(parsed, key, keys, clientSchema.object)
-              .then(clientSchemaRes => callback(null, clientSchemaRes.slice(1)));
+              // Insert in the Data base
+              .then((clientSchemaRes) => {
+                clientSchema.Model.create(clientSchemaRes.slice(1), (err) => {
+                  if (err) console.error('clientSchemaRes', err);
+                  callback(null, clientSchemaRes.slice(1));
+                });
+              });
           },
-          schemaObjFileMetaData: (callback) => {
-            formater.formatBeforeSave(parsed, key, keys, fileMetaDataSchema.object)
-              .then(fileMetaDataSchemaRes => callback(null, fileMetaDataSchemaRes.slice(1)));
-          },
-        }, (err, result) => {
-          console.log(result.schemaObjReq[0]);
+        }, (err) => {
+          if (err) console.error('Save error: ', err);
           res.sendStatus(200);
         });
       });

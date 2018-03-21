@@ -31,7 +31,7 @@ const clientSchema = new mongoose.Schema(
 /**
  * @typedef Client
  */
-exports.model = mongoose.model('Client', clientSchema);
+exports.Model = mongoose.model('Client', clientSchema);
 
 // Export schema keys object
 exports.object = schema;
