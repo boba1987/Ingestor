@@ -22,17 +22,17 @@ exports.create = (req, res) => {
     .then((parsed) => {
       async.each(Object.keys(parsed), (key) => {
         let index = 0;
+        let keys;
         async.each(parsed[key], (item) => {
           if (index) {
             item.push(index);
           } else {
             parsed[key][0].push('UID');
+            // Get the colums/keys
+            keys = formater.mapKeys(parsed[key]);
           }
-
           index += 1;
         });
-        // Get the colums/keys
-        const keys = formater.mapKeys(parsed[key]);
         // Iterate over parsed .xsl file
         async.parallel({
           schemaObjReq: (callback) => {
