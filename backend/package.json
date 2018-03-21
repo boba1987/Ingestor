@@ -5,6 +5,7 @@
   "author": "boba_dj",
   "main": "src/index.js",
   "private": false,
+  "licence": "sdj",
   "engines": {
     "node": ">=8",
     "yarn": "*"
