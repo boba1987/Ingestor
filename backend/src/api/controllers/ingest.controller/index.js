@@ -107,8 +107,9 @@ exports.create = (req, res) => {
  * @public
  */
 exports.get = function get(req, res) {
-  console.log(req.query);
   const collection = dbConnection.collection('clients');
+  const skip = parseInt(req.query.page, 10) || 0;
+  const limit = parseInt(req.query['page-size'], 10) || 100000000;
   // Join collections
   collection.aggregate([
     {
@@ -145,7 +146,7 @@ exports.get = function get(req, res) {
       },
     },
     { $sort: { [req.query.sort]: parseInt(req.query['sort-direction'], 10) } },
-  ]).toArray((err, result) => {
+  ]).skip(skip * limit).limit(limit).toArray((err, result) => {
     if (err) console.error(err);
     res.send(result);
   });
