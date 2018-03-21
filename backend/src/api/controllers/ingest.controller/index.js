@@ -145,6 +145,7 @@ exports.get = function get(req, res) {
       },
     },
   ]).toArray((err, result) => {
+    if (err) console.error(err);
     res.send(result);
   });
 };
