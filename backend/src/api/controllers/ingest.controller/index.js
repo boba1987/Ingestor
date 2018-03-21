@@ -144,6 +144,7 @@ exports.get = function get(req, res) {
         fileName: { $regex: new RegExp(req.query['file-name']) },
       },
     },
+    { $sort: { [req.query.sort]: parseInt(req.query['sort-direction'], 10) } },
   ]).toArray((err, result) => {
     if (err) console.error(err);
     res.send(result);
