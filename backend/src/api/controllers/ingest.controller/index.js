@@ -15,6 +15,17 @@ Mongo.MongoClient.connect(Config.mongo.uri, (err, db) => {
 });
 
 /**
+ * Get ingest
+ * @private
+ */
+function createTextIndex(dbCollection, config) {
+  // Get the documents collection
+  const collection = dbConnection.collection(dbCollection);
+
+  collection.createIndex(config);
+}
+
+/**
  * Create new ingest
  * @public
  */
@@ -62,6 +73,8 @@ exports.create = (req, res) => {
                 clientSchema.Model.create(clientSchemaRes.slice(1), (err) => {
                   if (err) console.error('clientSchemaRes', err);
                   callback(null, clientSchemaRes.slice(1));
+                  // Create index for text search
+                  createTextIndex('clients', { clientName: 'text' });
                 });
               });
           },
@@ -73,6 +86,8 @@ exports.create = (req, res) => {
                 fileMetaDataSchema.Model.create(fileMetaDataSchemaRes.slice(1), (err) => {
                   if (err) console.error('fileMetaDataSchemaRes', err);
                   callback(null, fileMetaDataSchemaRes.slice(1));
+                  // Create index for text search
+                  createTextIndex('filemetadataschemas', { provider: 'text', fileName: 'text' });
                 });
               });
           },
@@ -92,7 +107,9 @@ exports.create = (req, res) => {
  * @public
  */
 exports.get = function get(req, res) {
+  console.log(req.query);
   const collection = dbConnection.collection('clients');
+  // Join collections
   collection.aggregate([
     {
       $lookup:
