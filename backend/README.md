@@ -10,6 +10,8 @@
 2. npm install
 3. npm run dev
 
+##Postman API collection link
+https://www.getpostman.com/collections/328db8353558a1baca11
 
 ## Documentation
 ```bash
