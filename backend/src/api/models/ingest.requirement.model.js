@@ -9,7 +9,7 @@ const schema = {
     lowercase: true,
   },
   amount: {
-    type: String,
+    type: Number,
     required: true,
     unique: false,
     trim: true,
@@ -23,7 +23,7 @@ const schema = {
     lowercase: true,
   },
   UID: {
-    type: String,
+    type: Number,
     required: false,
     unique: true,
     trim: true,

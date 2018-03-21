@@ -37,7 +37,7 @@ const schema = {
     lowercase: true,
   },
   UID: {
-    type: String,
+    type: Number,
     required: false,
     unique: true,
     trim: true,
