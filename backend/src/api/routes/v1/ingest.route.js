@@ -9,6 +9,7 @@ router
   /**
   * Insert data in a database
   */
-  .post(controller.create);
+  .post(controller.create)
+  .get(controller.get);
 
 module.exports = router;

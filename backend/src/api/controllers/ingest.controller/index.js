@@ -3,6 +3,16 @@ const async = require('async');
 const requirementSchema = require('../../models/ingest.requirement.model');
 const clientSchema = require('../../models/ingest.client.model');
 const fileMetaDataSchema = require('../../models/ingest.fileMetaData.model');
+const Mongo = require('mongodb');
+const Config = require('../../../config/vars');
+
+let dbConnection;
+
+Mongo.MongoClient.connect(Config.mongo.uri, (err, db) => {
+  if (err) console.log(err);
+  dbConnection = db;
+  console.log('Mongo connected');
+});
 
 /**
  * Create new ingest
@@ -75,4 +85,42 @@ exports.create = (req, res) => {
     .catch((err) => {
       res.status(400).send(err);
     });
+};
+
+/**
+ * Get ingest
+ * @public
+ */
+exports.get = function get(req, res) {
+  const collection = dbConnection.collection('clients');
+  collection.aggregate([
+    {
+      $lookup:
+       {
+         from: 'requirements',
+         localField: 'UID',
+         foreignField: 'UID',
+         as: 'requirementsItems',
+       },
+    },
+    {
+      $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$requirementsItems', 0] }, '$$ROOT'] } },
+    },
+    { $project: { requirementsItems: 0 } },
+    {
+      $lookup:
+       {
+         from: 'filemetadataschemas',
+         localField: 'UID',
+         foreignField: 'UID',
+         as: 'filemetadataschemasItems',
+       },
+    },
+    {
+      $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$filemetadataschemasItems', 0] }, '$$ROOT'] } },
+    },
+    { $project: { filemetadataschemasItems: 0 } },
+  ]).toArray((err, result) => {
+    res.send(result);
+  });
 };
