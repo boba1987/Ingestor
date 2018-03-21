@@ -137,6 +137,13 @@ exports.get = function get(req, res) {
       $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$filemetadataschemasItems', 0] }, '$$ROOT'] } },
     },
     { $project: { filemetadataschemasItems: 0 } },
+    {
+      $match: {
+        provider: { $regex: new RegExp(req.query.provider) },
+        clientName: { $regex: new RegExp(req.query['client-name']) },
+        fileName: { $regex: new RegExp(req.query['file-name']) },
+      },
+    },
   ]).toArray((err, result) => {
     res.send(result);
   });
