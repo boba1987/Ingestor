@@ -1,6 +1,6 @@
 # Ingestor
 
-# xsl files formater, aggregator, sorter
+## xsl files formater, aggregator, sorter
 
 # Requirements
  - [Node v7.6+](https://nodejs.org/en/download/current/) or [Docker](https://www.docker.com/)
